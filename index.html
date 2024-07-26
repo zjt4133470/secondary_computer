@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+    <style></style>
+    <link rel="stylesheet" href="./mim-common.css" type="text/css">
+</head>
+<style>
+    mim-input {
+        width: auto !important;
+    }
+    #entry,#exit{
+        height: 160px;
+        font-size: 50px;
+        text-align: center;
+    }
+
+    mim-input .mim-input {
+        width: 175px;
+    }
+</style>
+<body>
+<mim-container style="width: 60%;text-align: center;margin: 50px auto">
+    <mim-header style="font-size: 24px;font-weight: bolder">二级压下率模拟器</mim-header>
+    <mim-main>
+        <mim-row gutter="20">
+            <mim-col span="4">
+                <mim-col span="4" style="text-align: center">
+                    <mim-input id="entry" class="entry" type="number" placeholder="开始"></mim-input>
+                </mim-col>
+            </mim-col>
+            <mim-col span="16">
+                <mim-row gutter="20">
+                    <mim-col span="6" style="text-align: center">
+                        <mim-input class="F1" type="number" placeholder="请输F1压下量"></mim-input>
+                    </mim-col>
+                    <mim-col span="6" style="text-align: center">
+                        <mim-input class="F2" type="number" placeholder="请输F2压下量"></mim-input>
+                    </mim-col>
+                    <mim-col span="6" style="text-align: center">
+                        <mim-input class="F3" type="number" placeholder="请输F3压下量"></mim-input>
+                    </mim-col>
+                    <mim-col span="6" style="text-align: center">
+                        <mim-input class="F4" type="number" placeholder="请输F4压下量"></mim-input>
+                    </mim-col>
+                </mim-row>
+                <mim-row style="margin-top: 20px" gutter="20">
+
+                    <mim-col span="6" style="text-align: center">
+                        <mim-input class="F1_1" disabled placeholder="F1出口厚度"></mim-input>
+                    </mim-col>
+                    <mim-col span="6" style="text-align: center">
+                        <mim-input class="F2_1" disabled placeholder="F2出口厚度"></mim-input>
+                    </mim-col>
+                    <mim-col span="6" style="text-align: center">
+                        <mim-input class="F3_1" disabled placeholder="F3出口厚度"></mim-input>
+                    </mim-col>
+                    <mim-col span="6" style="text-align: center">
+                        <mim-input class="F4_1" disabled placeholder="F4出口厚度"></mim-input>
+                    </mim-col>
+
+                </mim-row>
+                <mim-row style="margin-top: 20px">
+                    <mim-col style="text-align: center" span="24">
+                        <mim-button id="btn" style="width: 80%" type="primary">点击计算</mim-button>
+                    </mim-col>
+                </mim-row>
+            </mim-col>
+            <mim-col span="4">
+                <mim-col span="4" style="text-align: center">
+                    <mim-input id="exit" class="exit" disabled placeholder="最终"></mim-input>
+                </mim-col>
+            </mim-col>
+        </mim-row>
+    </mim-main>
+</mim-container>
+
+<script src="./jquery-3.3.1.min.js"></script>
+<script src="./mim-common.js"></script>
+<script>
+
+    $('#btn').on("click", function () {
+        let entry_val = $('.entry').val()
+        let f1_1_val = '';
+        let f2_1_val = '';
+        let f3_1_val = '';
+        let f4_1_val = '';
+        let f1_val = $('.F1').val();
+        let f2_val = $('.F2').val();
+        let f3_val = $('.F3').val();
+        let f4_val = $('.F4').val();
+        if (!entry_val) {
+            MIM.prompt('请输入入口厚度', 'danger', 3000, false)
+        } else {
+            // MIM.prompt('我是一段成功文字','success',3000,false)
+            $('.entry_1').val(entry_val)
+            if (f1_val) {
+                f1_1_val = entry_val * (1 - f1_val * 0.01)
+                $(".F1_1").val(f1_1_val.toFixed(2) + "mm")
+            } else {
+                MIM.prompt('请输入F1压下量', 'danger', 3000, false)
+            }
+            if (f2_val) {
+                f2_1_val = f1_1_val * (1 - f2_val * 0.01)
+                $(".F2_1").val(f2_1_val.toFixed(2) + "mm")
+            } else {
+                MIM.prompt('请输入F2压下量', 'danger', 3000, false)
+            }
+            if (f3_val) {
+                f3_1_val = f2_1_val * (1 - f3_val * 0.01)
+                $(".F3_1").val(f3_1_val.toFixed(2) + "mm")
+            } else {
+                MIM.prompt('请输入F3压下量', 'danger', 3000, false)
+            }
+            if (f4_val) {
+                f4_1_val = f3_1_val * (1 - f4_val * 0.01)
+                $(".F4_1").val(f4_1_val.toFixed(2) + "mm")
+                $('.exit').val(f4_1_val.toFixed(2) + "mm")
+            } else {
+                MIM.prompt('请输入F4压下量', 'danger', 3000, false)
+            }
+        }
+
+    })
+</script>
+</body>
+</html>
